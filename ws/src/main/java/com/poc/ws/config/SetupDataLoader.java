@@ -2,8 +2,10 @@ package com.poc.ws.config;
 
 import com.poc.ws.domain.Role;
 import com.poc.ws.domain.User;
+import com.poc.ws.domain.VerificationToken;
 import com.poc.ws.repository.RoleRepository;
 import com.poc.ws.repository.UserRepository;
+import com.poc.ws.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +26,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
         userRepository.deleteAll();
         roleRepository.deleteAll();;
+        verificationTokenRepository.deleteAll();
 
         Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
         Role roleUser = createRoleIfNotFound("ROLE_USER");

@@ -3,6 +3,7 @@ package com.poc.ws.services;
 import com.poc.ws.domain.Role;
 import com.poc.ws.domain.User;
 import com.poc.ws.repository.UserRepository;
+import com.poc.ws.services.exception.ObjectNotEnabledException;
 import com.poc.ws.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,8 +22,8 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-        @Autowired
-        UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -30,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (!user.isPresent()) {
             throw new UsernameNotFoundException(String.format("UserNotExist"));
         } else if (!user.get().isEnabled()) {
-            throw new ObjectNotFoundException(String.format("UserNotEnabled"));
+            throw new ObjectNotEnabledException(String.format("UserNotEnabled"));
         }
         return new UserRepositoryUserDetails(user.get());
     }
@@ -43,11 +44,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         return authorities;
     }
 
-        public final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles){
-            return getGrantedAuthorities(roles);
-        }
+    public final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles){
+        return getGrantedAuthorities(roles);
+    }
 
-        private final static class UserRepositoryUserDetails extends User implements UserDetails {
+    private final static class UserRepositoryUserDetails extends User implements UserDetails {
 
         public UserRepositoryUserDetails(User user) {
             super(user);

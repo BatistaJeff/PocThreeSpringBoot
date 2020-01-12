@@ -32,9 +32,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception{
-        endpoints.tokenStore(this.tokenStore)
-                .authenticationManager(this.authenticationManager)
-                .userDetailsService(this.userDetailsService);
+        endpoints.tokenStore(this.tokenStore).authenticationManager(this.authenticationManager).userDetailsService(this.userDetailsService);
     }
     @Override
     public void configure(ClientDetailsServiceConfigurer clients ) throws Exception{
@@ -44,8 +42,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .scopes("bar", "read", "write")
                 .resourceIds(this.RESOURCE_ID)
-                .accessTokenValiditySeconds(60)
-                .refreshTokenValiditySeconds(60*60*24);
+                .accessTokenValiditySeconds(120) /* 2 minutos */
+                .refreshTokenValiditySeconds(60 * 60 * 24); /* 1 dia */
     }
 
     @Bean
