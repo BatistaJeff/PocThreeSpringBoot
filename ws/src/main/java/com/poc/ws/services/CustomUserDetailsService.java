@@ -4,7 +4,6 @@ import com.poc.ws.domain.Role;
 import com.poc.ws.domain.User;
 import com.poc.ws.repository.UserRepository;
 import com.poc.ws.services.exception.ObjectNotEnabledException;
-import com.poc.ws.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
